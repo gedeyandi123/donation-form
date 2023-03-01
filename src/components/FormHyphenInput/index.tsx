@@ -33,6 +33,7 @@ const FormHyphenInput: FC<FormInputProps> = ({ name, ...otherProps }) => {
             helperText={
               errors[name] ? (errors[name]?.message as unknown as string) : ""
             }
+            InputLabelProps={{ shrink: true }}
           />
         </InputMask>
       )}
