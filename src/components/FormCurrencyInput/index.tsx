@@ -1,0 +1,56 @@
+import { FC } from "react";
+import { useFormContext, Controller } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
+import { NumericFormat } from "react-number-format";
+
+type FormCurrencyInputProps = {
+  name: string;
+  label: string;
+  required: boolean;
+} & TextFieldProps;
+
+const FormCurrencyInput: FC<FormCurrencyInputProps> = ({
+  name,
+  label,
+  required,
+  autoFocus,
+}) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { value, onChange, ref } }) => (
+        <NumericFormat
+          customInput={TextField}
+          allowNegative={false}
+          thousandSeparator={true}
+          displayType="input"
+          type="text"
+          prefix={"$ "}
+          onValueChange={(values, sourceInfo) => {
+            onChange(values.floatValue);
+          }}
+          value={value}
+          variant="outlined"
+          sx={{ mb: "1rem" }}
+          error={!!errors[name]}
+          helperText={
+            errors[name] ? (errors[name]?.message as unknown as string) : ""
+          }
+          label={label}
+          required={required}
+          inputRef={ref}
+          valueIsNumericString={true}
+          autoFocus={autoFocus}
+        />
+      )}
+    />
+  );
+};
+
+export { FormCurrencyInput };
